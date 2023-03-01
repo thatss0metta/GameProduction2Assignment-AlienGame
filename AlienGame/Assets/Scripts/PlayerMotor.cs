@@ -35,12 +35,12 @@ public class PlayerMotor : MonoBehaviour
     void Update()
     {
         isGrounded = controller.isGrounded;
-        if(sprinting)
-            Debug.Log("Sprinting");
-        else
-        {
-            Debug.Log("Walking");
-        }
+        // if(sprinting)
+        //     //Debug.Log("Sprinting");
+        // else
+        // {
+        //     //Debug.Log("Walking");
+        // }
 
     }
     //Receive inputs from InputManager.cs and applies them to character controller

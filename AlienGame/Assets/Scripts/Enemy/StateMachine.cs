@@ -7,12 +7,14 @@ public class StateMachine : MonoBehaviour
     public BaseState activeState;
     public PatrolState patrolState;
     public ChaseState chaseState;
+    public StunnedState stunnedState;
     public FieldOfView fov;
 
     public void Initialize()
     {
         patrolState = new PatrolState();
         chaseState = new ChaseState();
+        stunnedState = new StunnedState();
         ChangeState(patrolState);
     }
     // Start is called before the first frame update

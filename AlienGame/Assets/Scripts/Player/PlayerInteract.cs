@@ -38,6 +38,16 @@ public class PlayerInteract : MonoBehaviour
                     interactable.BaseInteract();
                 }
             }
+            if(hitInfo.collider.GetComponent<Interactable>() != null)
+            {
+                Interactable interactable = hitInfo.collider.GetComponent<Interactable>();
+                playerUI.UpdateText(interactable.promptMessage);
+                if(inputManager.onFoot.Flash.triggered)
+                {
+                    interactable.BaseInteract();
+                }
+            }
+            
         }
     }
 }

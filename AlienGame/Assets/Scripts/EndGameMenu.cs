@@ -8,6 +8,6 @@ public class EndGameMenu : MonoBehaviour
     public int gameMainMenu;
     public void Menu()
     {
-        SceneManager.LoadScene(gameMainMenu);
+        SceneManager.LoadScene("MainMenu");
     }
 }

@@ -14,13 +14,17 @@ public class PlayerMotor : MonoBehaviour
     [Header("Stamina Main Parameters")]
     public float playerStamina = 100.0f;
     [SerializeField] private float maxStamina = 100.0f;
-    [SerializeField] public bool sprinting = false;
-    [SerializeField] public bool regenerated = true;
-    [SerializeField] public bool hasKey = false;
+    [SerializeField] private float staminaUseMultiplier = 5;
+    [SerializeField] public bool useStamina = true;
+    [SerializeField] private float timeBeforeStaminaRegenStarts = 5;
+    [SerializeField] private float staminaValueIncrement = 2;
+    [SerializeField] private float staminaTimeIncrement = 0.1f;
+    [SerializeField] private bool canSprint = true;
+    [SerializeField] private bool sprinting = false;
 
-    [Header("Stamina Regen Parameters")]
-    [Range(0, 50)] [SerializeField] private float staminaDrain = 0.5f;
-    [Range(0, 50)] [SerializeField] private float staminaRegen = 0.5f;
+    private float currentStamina;
+    private Coroutine regeneratingStamina;
+    [SerializeField] public bool hasKey = false;
 
     [Header("Stamina UI Elements")]
     [SerializeField] private Image staminaProgressUI = null;
@@ -36,13 +40,10 @@ public class PlayerMotor : MonoBehaviour
     void Update()
     {
         isGrounded = controller.isGrounded;
-        // if(sprinting)
-        //     //Debug.Log("Sprinting");
-        // else
-        // {
-        //     //Debug.Log("Walking");
-        // }
-
+        if(useStamina)
+        {
+            HandleStamina();
+        }
     }
     //Receive inputs from InputManager.cs and applies them to character controller
     public void ProcessMove(Vector2 input)
@@ -61,37 +62,26 @@ public class PlayerMotor : MonoBehaviour
     {
         sprinting = !sprinting;
         if(sprinting)
-        {
             speed = 8;    
-            UpdateStamina(1);
-            while(sprinting && playerStamina >= 0)
-            {
-                playerStamina -= staminaDrain * Time.deltaTime;
-            }
-
-            if(playerStamina <= 0)
-            {
-                regenerated = false;
-            }
-        }
-        else
-        {   
+        else 
             speed = 5;
-            playerStamina += staminaRegen * Time.deltaTime;
-        }  
+        
     }
 
-    void UpdateStamina(int value)
+    private void HandleStamina()
     {
-        staminaProgressUI.fillAmount = playerStamina / maxStamina;
+        if(sprinting)
+        {
+            currentStamina -= staminaUseMultiplier * Time.deltaTime;
 
-        if(value == 0)
-        {
-            sliderCanvasGroup.alpha = 0;
-        }
-        else
-        {
-            sliderCanvasGroup.alpha = 1;
+            if(currentStamina < 0)
+            {
+                currentStamina = 0;
+            }
+            if(currentStamina <= 0)
+            {
+                
+            }
         }
     }
 }

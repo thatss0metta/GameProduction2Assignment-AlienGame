@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<<< HEAD:AlienGame/Assets/Assets/2D Assets/stamina_outside.png.meta
 guid: 4f2242876a4f2104eae5b217a4d9f175
+========
+guid: 7d2047d2cdc32784eafafe230b529a0d
+>>>>>>>> main:AlienGame/Assets/Assets/2D Assets/battery 1.png.meta
+=======
+guid: 04bb95f74803feb4ea7b818aa118070a
+>>>>>>> main
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

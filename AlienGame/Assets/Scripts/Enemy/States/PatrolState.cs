@@ -21,22 +21,22 @@ public class PatrolState : BaseState
 
     public void PatrolCycle()
     {
-        Debug.Log("Patrolling");
+        //Debug.Log("Patrolling");
         // Implement our patrol logic
         if(enemy.Agent.remainingDistance < 0.5f)
         {
             waitTimer += Time.deltaTime;
-            Debug.Log("Timer: " + waitTimer);
+           // Debug.Log("Timer: " + waitTimer);
             if(waitTimer > 3)
             {
                 if(waypointIndex < enemy.path.waypoints.Count - 1)
                 {
                     waypointIndex++;
-                    Debug.Log("Index is: " + waypointIndex);
+                    //Debug.Log("Index is: " + waypointIndex);
                 }
                 else
                 {
-                    Debug.Log("Index changed to " + waypointIndex);
+                    //Debug.Log("Index changed to " + waypointIndex);
                     waypointIndex = 0;
                 }
                 enemy.Agent.SetDestination(enemy.path.waypoints[waypointIndex].position);

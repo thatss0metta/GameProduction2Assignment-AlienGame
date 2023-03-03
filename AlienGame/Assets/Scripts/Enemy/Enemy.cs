@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     public Path path;
     public GameObject player;
     public Transform playerLoc;
+    public FieldOfView fov;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,7 @@ public class Enemy : MonoBehaviour
         stateMachine = GetComponent<StateMachine>();
         agent = GetComponent<NavMeshAgent>();
         stateMachine.Initialize();
+        fov = GetComponent<FieldOfView>();
     }
 
     // Update is called once per frame

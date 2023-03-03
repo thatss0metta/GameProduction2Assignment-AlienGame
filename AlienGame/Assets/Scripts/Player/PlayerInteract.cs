@@ -11,12 +11,14 @@ public class PlayerInteract : MonoBehaviour
     private LayerMask mask;
     private PlayerUI playerUI;
     private InputManager inputManager;
+    private PlayerMotor playerMotor;
     // Start is called before the first frame update
     void Start()
     {
         cam = GetComponent<PlayerLook>().cam;
         playerUI = GetComponent<PlayerUI>();
         inputManager = GetComponent<InputManager>();
+        playerMotor = GetComponent<PlayerMotor>();
     }
 
     // Update is called once per frame
@@ -41,7 +43,6 @@ public class PlayerInteract : MonoBehaviour
             if(hitInfo.collider.GetComponent<Interactable>() != null)
             {
                 Interactable interactable = hitInfo.collider.GetComponent<Interactable>();
-                playerUI.UpdateText(interactable.promptMessage);
                 if(inputManager.onFoot.Flash.triggered)
                 {
                     interactable.BaseInteract();

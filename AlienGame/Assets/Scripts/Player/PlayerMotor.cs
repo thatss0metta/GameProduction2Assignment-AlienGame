@@ -16,6 +16,7 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] private float maxStamina = 100.0f;
     [SerializeField] public bool sprinting = false;
     [SerializeField] public bool regenerated = true;
+    [SerializeField] public bool hasKey = false;
 
     [Header("Stamina Regen Parameters")]
     [Range(0, 50)] [SerializeField] private float staminaDrain = 0.5f;

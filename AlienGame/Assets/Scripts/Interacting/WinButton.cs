@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Collision : MonoBehaviour
+public class WinButton : Interactable
 {
+    public Animator door;
     private SceneManager sceneManager;
     // Start is called before the first frame update
-
     void Start()
     {
         sceneManager = GetComponent<SceneManager>();
     }
-    void OnTriggerEnter(Collider other)
+
+    // Update is called once per frame
+    void Update()
     {
-        if(other.gameObject.tag == "Enemy")
-        {
-            sceneManager.LoadScene(LoseSceneTemp);
-        }
+        
+    }
+    protected override void Interact()
+    {
+       //sceneManager.LoadScene(WinScene);
     }
 }

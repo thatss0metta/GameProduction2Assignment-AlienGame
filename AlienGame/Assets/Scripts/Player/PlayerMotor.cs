@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.InputSystem;
 
 public class PlayerMotor : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class PlayerMotor : MonoBehaviour
     private bool isGrounded;
     public float speed = 5f;
     public float gravity = -9.8f;
+    private PlayerInput playerInput;
+    private InputAction flash;
 
     [Header("Stamina Main Parameters")]
     public float playerStamina = 100.0f;
@@ -22,6 +25,11 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] private float staminaTimeIncrement = 0.1f;
     [SerializeField] public bool canSprint = true;
     [SerializeField] private bool sprinting = false;
+
+    [Header("Flash Main Parameters")]
+    [SerializeField] private bool canFlash = true;
+    [SerializeField] private float flashTimer = 20.0f;
+
 
     private float currentStamina;
     private Coroutine regeneratingStamina;
@@ -35,7 +43,7 @@ public class PlayerMotor : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-
+        playerInput = new PlayerInput();
     }
 
     void Awake()
@@ -50,6 +58,11 @@ public class PlayerMotor : MonoBehaviour
         if(useStamina)
         {
             HandleStamina();
+        }
+
+        if(playerInput.OnFoot.Flash.triggered)
+        {
+            Debug.Log("Enemy flashed");
         }
     }
     //Receive inputs from InputManager.cs and applies them to character controller
@@ -77,6 +90,15 @@ public class PlayerMotor : MonoBehaviour
         }
         else
             speed = 5;
+    }
+
+    public void Flash()
+    {
+        if(canFlash)
+        {
+
+            flashTimer -= Time.deltaTime;
+        }
     }
 
     private void HandleStamina()

@@ -5,12 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class Collision : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public AudioSource audioSource;
+    
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Enemy")
         {
+            audioSource.Play();
             SceneManager.LoadScene("LoseScreen");
         }
     }

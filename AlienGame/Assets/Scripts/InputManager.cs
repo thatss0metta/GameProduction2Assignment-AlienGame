@@ -19,6 +19,7 @@ public class InputManager : MonoBehaviour
         look = GetComponent<PlayerLook>();
         
         onFoot.Sprint.performed += ctx => motor.Sprint();
+        onFoot.Flash.performed += ctx => motor.Flash();
     }
 
     // Update is called once per frame

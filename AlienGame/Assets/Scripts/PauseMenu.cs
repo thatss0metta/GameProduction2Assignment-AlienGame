@@ -59,7 +59,7 @@ public class PauseMenu : MonoBehaviour
 
     public void DeactivateMenu()
     {
-        Time.timeScale = 0;
+        Time.timeScale = 1;
         AudioListener.pause = false;
         pauseUI.SetActive(false);
         isPaused = false;

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Collision : MonoBehaviour
 {
     public AudioSource audioSource;
-    
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -14,10 +14,10 @@ public class Collision : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy")
         {
-            audioSource.Play();
             SceneManager.LoadScene("LoseScreen");
         }
     }
+
 }

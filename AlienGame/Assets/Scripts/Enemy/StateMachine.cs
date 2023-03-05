@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.UI;
+using UnityEngine.AI;
 
 public class StateMachine : MonoBehaviour
 {
@@ -32,27 +33,28 @@ public class StateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(activeState != null)
+        if (activeState != null)
         {
             activeState.Perform();
         }
-        if(fov.canSeePlayer)
+        if (fov.canSeePlayer)
         {
             ChangeState(chaseState);
         }
-        else if(!fov.canSeePlayer)
+        else if (!fov.canSeePlayer)
         {
             ChangeState(patrolState);
         }
         rageTimer += Time.deltaTime;
-        Debug.Log("Rage Time: " + rageTimer);
-        if(rageTimer >= 30)
+        // Debug.Log("Rage Time: " + rageTimer);
+        if (rageTimer >= 30)
         {
-            if(!isRaging)
+            if (!isRaging)
             {
                 audioSource.Play();
                 Debug.Log("If statement Triggered");
                 patrolState.adjustedTimer = 1;
+                GetComponent<NavMeshAgent>().speed = 8;
                 isRaging = true;
                 rageText.SetActive(true);
             }
@@ -62,7 +64,7 @@ public class StateMachine : MonoBehaviour
     public void ChangeState(BaseState newState)
     {
         // Check activeState != null
-        if(activeState != null)
+        if (activeState != null)
         {
             // Run cleanup
             activeState.Exit();
@@ -71,7 +73,7 @@ public class StateMachine : MonoBehaviour
         activeState = newState;
 
         // Fail-safe null check to make sure new state wasn't null
-        if(activeState != null)
+        if (activeState != null)
         {
             // Setup new state.
             activeState.stateMachine = this;

@@ -6,7 +6,8 @@ public class PatrolState : BaseState
 {
     // Track current waypoint targeted.
     public int waypointIndex;
-    public float waitTimer;
+    public float waitTimer = 3;
+    public float adjustedTimer;
 
     public override void Enter()
     {
@@ -25,9 +26,9 @@ public class PatrolState : BaseState
         // Implement our patrol logic
         if(enemy.Agent.remainingDistance < 0.5f)
         {
-            waitTimer += Time.deltaTime;
+            waitTimer -= Time.deltaTime;
            // Debug.Log("Timer: " + waitTimer);
-            if(waitTimer > 3)
+            if(waitTimer < 0)
             {
                 if(waypointIndex < enemy.path.waypoints.Count - 1)
                 {
@@ -40,7 +41,7 @@ public class PatrolState : BaseState
                     waypointIndex = 0;
                 }
                 enemy.Agent.SetDestination(enemy.path.waypoints[waypointIndex].position);
-                waitTimer = 0;
+                waitTimer = adjustedTimer;
             }
         }
     }

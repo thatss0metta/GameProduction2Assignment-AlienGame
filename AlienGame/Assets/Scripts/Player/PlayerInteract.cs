@@ -9,6 +9,8 @@ public class PlayerInteract : MonoBehaviour
     private float distance = 3f;
     [SerializeField]
     private LayerMask mask;
+    [SerializeField]
+    private LayerMask flashMask;
     private PlayerUI playerUI;
     private InputManager inputManager;
     private PlayerMotor playerMotor;
@@ -40,12 +42,13 @@ public class PlayerInteract : MonoBehaviour
                     interactable.BaseInteract();
                 }
             }
-            if(hitInfo.collider.GetComponent<Interactable>() != null)
+            if(hitInfo.collider.GetComponent<Flashable>() != null)
             {
-                Interactable interactable = hitInfo.collider.GetComponent<Interactable>();
+                Flashable flashable = hitInfo.collider.GetComponent<Flashable>();
                 if(inputManager.onFoot.Flash.triggered)
                 {
-                    interactable.BaseInteract();
+                    flashable.BaseFlash();
+                    Debug.Log("Player Flashed!");
                 }
             }
             

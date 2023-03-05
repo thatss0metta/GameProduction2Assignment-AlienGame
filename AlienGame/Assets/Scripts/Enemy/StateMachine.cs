@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.UI;
 
 public class StateMachine : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class StateMachine : MonoBehaviour
     public ChaseState chaseState;
     public StunnedState stunnedState;
     public FieldOfView fov;
+    public float rageTimer;
+    public AudioSource audioSource;
+    public bool isRaging = false;
+    public GameObject rageText;
 
     public void Initialize()
     {
@@ -20,7 +25,8 @@ public class StateMachine : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        rageTimer = 0;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -37,6 +43,19 @@ public class StateMachine : MonoBehaviour
         else if(!fov.canSeePlayer)
         {
             ChangeState(patrolState);
+        }
+        rageTimer += Time.deltaTime;
+        Debug.Log("Rage Time: " + rageTimer);
+        if(rageTimer >= 30)
+        {
+            if(!isRaging)
+            {
+                audioSource.Play();
+                Debug.Log("If statement Triggered");
+                patrolState.adjustedTimer = 1;
+                isRaging = true;
+                rageText.SetActive(true);
+            }
         }
     }
 

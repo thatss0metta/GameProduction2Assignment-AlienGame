@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class PlayerMotor : MonoBehaviour
 {
@@ -19,11 +20,12 @@ public class PlayerMotor : MonoBehaviour
     [SerializeField] private float timeBeforeStaminaRegenStarts = 5;
     [SerializeField] private float staminaValueIncrement = 2;
     [SerializeField] private float staminaTimeIncrement = 0.1f;
-    [SerializeField] private bool canSprint = true;
+    [SerializeField] public bool canSprint = true;
     [SerializeField] private bool sprinting = false;
 
     private float currentStamina;
     private Coroutine regeneratingStamina;
+    public static Action<float> OnStaminaChange;
     [SerializeField] public bool hasKey = false;
 
     [Header("Stamina UI Elements")]
@@ -34,6 +36,11 @@ public class PlayerMotor : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
 
+    }
+
+    void Awake()
+    {
+        currentStamina = maxStamina;
     }
 
     // Update is called once per frame
@@ -62,26 +69,66 @@ public class PlayerMotor : MonoBehaviour
     {
         sprinting = !sprinting;
         if(sprinting)
-            speed = 8;    
-        else 
+        {
+            if(canSprint)
+                speed = 8;    
+            else 
+                speed = 5;
+        }
+        else
             speed = 5;
-        
     }
 
     private void HandleStamina()
     {
         if(sprinting)
         {
+            if(regeneratingStamina != null)
+            {
+                StopCoroutine(regeneratingStamina);
+                regeneratingStamina = null;
+            }
+
             currentStamina -= staminaUseMultiplier * Time.deltaTime;
 
             if(currentStamina < 0)
-            {
                 currentStamina = 0;
-            }
+
+            OnStaminaChange?.Invoke(currentStamina);
+
             if(currentStamina <= 0)
             {
-                
+                canSprint = false;
+                speed = 5;
             }
+            
         }
+        if(!sprinting && currentStamina < maxStamina && regeneratingStamina == null)
+        {
+            regeneratingStamina = StartCoroutine(RegenerateStamina());
+        }
+    }
+
+    private IEnumerator RegenerateStamina()
+    {
+        yield return new WaitForSeconds(timeBeforeStaminaRegenStarts);
+        WaitForSeconds timeToWait = new WaitForSeconds(staminaTimeIncrement);
+
+        while(currentStamina < maxStamina)
+        {
+            if(currentStamina > 0)
+                canSprint = true;
+            
+            currentStamina += staminaValueIncrement;
+
+            if(currentStamina > maxStamina)
+                currentStamina = maxStamina;
+
+            OnStaminaChange?.Invoke(currentStamina);
+
+            yield return timeToWait;
+        }
+
+        regeneratingStamina = null;
     }
 }

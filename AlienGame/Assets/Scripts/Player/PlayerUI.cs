@@ -9,6 +9,16 @@ public class PlayerUI : MonoBehaviour
     private TextMeshProUGUI promptText;
     [SerializeField] private TextMeshProUGUI staminaText = default;
     // Start is called before the first frame update
+
+    private void OnEnable()
+    {
+        PlayerMotor.OnStaminaChange += UpdateStamina;
+    }
+
+    private void OnDisable()
+    {
+        PlayerMotor.OnStaminaChange -= UpdateStamina;
+    }
     void Start()
     {
         UpdateStamina(100);
@@ -21,6 +31,6 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateStamina(float currentStamina)
     {
-        staminaText.text = currentStamina.ToString("00");
+        staminaText.text = currentStamina.ToString("00") + "%";
     }
 }

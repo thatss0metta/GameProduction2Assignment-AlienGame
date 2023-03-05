@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CapsuleDood : MonoBehaviour
+public class CapsuleDood : Flashable
 {
     // Start is called before the first frame update
     void Start()
@@ -12,6 +12,10 @@ public class CapsuleDood : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        
+    }
+    protected override void Flash()
     {
         
     }
